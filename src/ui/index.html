@@ -10,99 +10,47 @@
         theme: {
           extend: {
             colors: {
-              'dark_green': {
-                DEFAULT: '#0a210f',
-                100: '#020603',
-                200: '#040c06',
-                300: '#061309',
-                400: '#08190b',
-                500: '#0a210f',
-                600: '#20672f',
-                700: '#36af50',
-                800: '#6fd385',
-                900: '#b7e9c2'
-              },
-              'bittersweet': {
-                DEFAULT: '#eb5e55',
-                100: '#3a0a07',
-                200: '#73140d',
-                300: '#ad1e14',
-                400: '#e42a1d',
-                500: '#eb5e55',
-                600: '#ef8078',
-                700: '#f3a09a',
-                800: '#f7bfbb',
-                900: '#fbdfdd'
-              },
-              'cerulean': {
-                DEFAULT: '#077187',
-                100: '#01171b',
-                200: '#032e36',
-                300: '#044551',
-                400: '#065b6d',
-                500: '#077187',
-                600: '#0badcd',
-                700: '#2ed3f4',
-                800: '#73e2f8',
-                900: '#b9f0fb'
-              },
-              'periwinkle': {
-                DEFAULT: '#b9b8d3',
-                100: '#1f1e30',
-                200: '#3e3c61',
-                300: '#5d5b91',
-                400: '#8887b4',
-                500: '#b9b8d3',
-                600: '#c6c5db',
-                700: '#d4d4e4',
-                800: '#e3e2ed',
-                900: '#f1f1f6'
-              },
-              'anti-flash_white': {
-                DEFAULT: '#edf2f4',
-                100: '#24353b',
-                200: '#496a77',
-                300: '#759bab',
-                400: '#b1c6cf',
-                500: '#edf2f4',
-                600: '#f0f4f6',
-                700: '#f4f7f8',
-                800: '#f7fafa',
-                900: '#fbfcfd'
-              },
-              electricPlum: '#9A0680',
-              glitchBlue: '#3E92CC',
-              softGraphite: '#2C2C2C',
-              mistClay: '#EDE6E3',
-              acidLime: '#C0FF3E'
+              "npr-red": "#D62021",
+              "npr-black": "#000000",
+              "npr-blue": "#237BBD"
             }
           }
         }
       }
     </script>
 
-    <style>
-      body {
-        background: rgb(214,32,33);
-        background: linear-gradient(125deg, rgba(214,32,33,1) 0%, rgba(17,3,3,1) 47%, rgba(0,0,0,1) 48%, rgba(35,123,189,1) 100%);
-      }
-    </style>
     <script>
-      function randomIndex(min, max) {
+      const randomIndex = (min, max) => {
         const array = new Uint32Array(1);
         crypto.getRandomValues(array);
         const normalized = array[0] / (0xFFFFFFFF + 1);
         return Math.floor(min + normalized * (max - min));
       }
 
+      const resizePlayer = () => {
+        const iframe = document.getElementById('video');
+        const parent = iframe.parentElement;
+
+        if (iframe && parent) {
+          const parentWidth = parent.offsetWidth;
+          const parentHeight = parent.offsetHeight;
+
+          // left this in head in case i want to tune it later
+          iframe.style.width = (parentWidth * 1) + 'px';
+          iframe.style.height = (parentHeight * 1) + 'px';
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
+        resizePlayer();
+
+        window.addEventListener('resize', resizePlayer);
+
         const json = fetch('/items.json')
           .then(res => res.json())
           .then(items => {
-            console.log('items:', items)
 
             const videoIndex = randomIndex(0, items.length - 1);
-            console.log('videoIndex:', videoIndex)
             const video = items[videoIndex];
 
             document
@@ -113,22 +61,27 @@
       })
     </script>
   </head>
-  <body class="min-h-screen flex flex-col">
-    <div class="flex h-screen w-screen">
-      <div class="w-1/4  text-white p-4 overflow-y-auto ">
-        <section class="text-white py-20">
-          <div class="max-w-4xl mx-auto text-center px-4">
-            <h2 class="text-4xl font-bold mb-4">Random Tiny Desk</h2>
-            <p class="text-lg mb-8">Get a random tiny desk concert</p>
-            <a href="#" class="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100">Get Started</a>
-          </div>
-        </section>
-      </div>
-      <div class="flex-1 w-auto p-4 d-flex flex-col">
-        <section class="py-16 flex items-center justify-center">
-          <iframe id="video" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </section>
-      </div>
+  <body class="min-h-screen flex flex-col h-screen w-screen">
+    <div class="my-4 flex flex-col items-center">
+      <h1 class="text-2xl font-bolder ">Random NPR Tiny Desk Concert</h1>
+      <p class="font-mono text-xs my-2"> By <a href="https://colere.id?utm_source=random-tiny-desk" class="text-npr-blue hover:underline" target="_blank">Cole Reid</a> &mdash; Made at <a href="https://recurse.com" class="text-npr-blue hover:underline" target="_blank">Recurse</a>
+      </p>
     </div>
-  </body>
+
+    <div class="flex flex-row">
+      <div class="flex w-1/3 h-8 bg-npr-red"></div>
+      <div class="flex w-1/3 h-8 bg-npr-black"></div>
+      <div class="flex w-1/3 h-8 bg-npr-blue"></div>
+    </div>
+
+    <div class="flex-1 w-auto p-2 md:p-4 xl:p-20 d-flex flex-col">
+      <section class="flex items-center justify-center h-full">
+        <iframe id="video" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+    </div>
+  </div>
+
+  <footer class="text-center text-xs m-2">This site is in no way affiliated with NPR. I just <span class="text-npr-red">❤</span> this concert series! <a href="https://www.npr.org/donations/support" class="text-npr-blue hover:underline" target="_blank">Support NPR</a>
+  </footer>
+</body>
 </html>
