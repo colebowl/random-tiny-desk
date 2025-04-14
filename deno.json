@@ -1,0 +1,19 @@
+{
+  "name": "@colebowl/random-tiny-desk",
+  "version": "1.0.0",
+  "description": "random-tiny-desk",
+  "exports": {
+    "./dev-server": "./src/dev-server/server.ts"
+  },
+  "tasks": {
+    "start": "deno --env-file=.env --allow-net --allow-read --allow-write --allow-env index.ts",
+    "generate-items": "deno --env-file=.env --allow-net --allow-read --allow-write --allow-env src/playlist-generator/runner.ts",
+    "dev": "deno --env-file=.env --watch --allow-net --allow-read --allow-write --allow-env src/dev-server/server.ts",
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "importMap": "import_map.json",
+  "compilerOptions": {
+    "lib": ["deno.ns", "dom"],
+    "strict": true
+  }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Random Tiny Desk Video</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'dark_green': {
+                DEFAULT: '#0a210f',
+                100: '#020603',
+                200: '#040c06',
+                300: '#061309',
+                400: '#08190b',
+                500: '#0a210f',
+                600: '#20672f',
+                700: '#36af50',
+                800: '#6fd385',
+                900: '#b7e9c2'
+              },
+              'bittersweet': {
+                DEFAULT: '#eb5e55',
+                100: '#3a0a07',
+                200: '#73140d',
+                300: '#ad1e14',
+                400: '#e42a1d',
+                500: '#eb5e55',
+                600: '#ef8078',
+                700: '#f3a09a',
+                800: '#f7bfbb',
+                900: '#fbdfdd'
+              },
+              'cerulean': {
+                DEFAULT: '#077187',
+                100: '#01171b',
+                200: '#032e36',
+                300: '#044551',
+                400: '#065b6d',
+                500: '#077187',
+                600: '#0badcd',
+                700: '#2ed3f4',
+                800: '#73e2f8',
+                900: '#b9f0fb'
+              },
+              'periwinkle': {
+                DEFAULT: '#b9b8d3',
+                100: '#1f1e30',
+                200: '#3e3c61',
+                300: '#5d5b91',
+                400: '#8887b4',
+                500: '#b9b8d3',
+                600: '#c6c5db',
+                700: '#d4d4e4',
+                800: '#e3e2ed',
+                900: '#f1f1f6'
+              },
+              'anti-flash_white': {
+                DEFAULT: '#edf2f4',
+                100: '#24353b',
+                200: '#496a77',
+                300: '#759bab',
+                400: '#b1c6cf',
+                500: '#edf2f4',
+                600: '#f0f4f6',
+                700: '#f4f7f8',
+                800: '#f7fafa',
+                900: '#fbfcfd'
+              },
+              electricPlum: '#9A0680',
+              glitchBlue: '#3E92CC',
+              softGraphite: '#2C2C2C',
+              mistClay: '#EDE6E3',
+              acidLime: '#C0FF3E'
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        background: rgb(214,32,33);
+        background: linear-gradient(125deg, rgba(214,32,33,1) 0%, rgba(17,3,3,1) 47%, rgba(0,0,0,1) 48%, rgba(35,123,189,1) 100%);
+      }
+    </style>
+    <script>
+      function randomIndex(min, max) {
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        const normalized = array[0] / (0xFFFFFFFF + 1);
+        return Math.floor(min + normalized * (max - min));
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const json = fetch('http://localhost:9000/items')
+          .then(res => res.json())
+          .then(items => {
+            console.log('items:', items)
+
+            const videoIndex = randomIndex(0, items.length - 1);
+            console.log('videoIndex:', videoIndex)
+            const video = items[videoIndex];
+
+            document
+              .getElementById("video")
+              .src = `https://www.youtube.com/embed/${video.id}`
+          })
+
+      })
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <div class="flex h-screen w-screen">
+      <div class="w-1/4  text-white p-4 overflow-y-auto ">
+        <section class="text-white py-20">
+          <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-4xl font-bold mb-4">Random Tiny Desk</h2>
+            <p class="text-lg mb-8">Get a random tiny desk concert</p>
+            <a href="#" class="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100">Get Started</a>
+          </div>
+        </section>
+      </div>
+      <div class="flex-1 w-auto p-4 d-flex flex-col">
+        <section class="py-16 flex items-center justify-center">
+          <iframe id="video" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
