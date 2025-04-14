@@ -4,6 +4,39 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Random Tiny Desk Video</title>
+    <meta name="description" content="Watch a randomly selected NPR Tiny Desk Concert video. A delightful surprise every time, made with love by Cole Reid at the Recurse Center."/>
+    <meta name="keywords" content="Tiny Desk, NPR, Random Video, Concerts, Music, Cole Reid, Recurse Center"/>
+    <meta name="author" content="Cole Reid"/>
+    <link rel="canonical" href="https://random-tiny-desk-concert.colere.id/"/>
+    <meta name="referrer" content="strict-origin-when-cross-origin"/>
+
+    <meta property="og:title" content="Random Tiny Desk Concert Generator"/>
+    <meta property="og:description" content="Watch a randomly selected NPR Tiny Desk Concert video. Hit refresh and get surprised!"/>
+    <meta property="og:image" content="https://random-tiny-desk-concert.colere.id/images/preview.jpg"/>
+    <meta property="og:url" content="https://random-tiny-desk-concert.colere.id/"/>
+    <meta property="og:type" content="website"/>
+
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Random Tiny Desk Concert Generator"/>
+    <meta name="twitter:description" content="Watch a randomly selected NPR Tiny Desk Concert video. A delightful surprise every time!"/>
+    <meta name="twitter:image" content="https://random-tiny-desk-concert.colere.id/images/preview.jpg"/>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Random Tiny Desk Concert Generator",
+        "url": "https://random-tiny-desk-concert.colere.id/",
+        "author": {
+          "@type": "Person",
+          "name": "Cole Reid",
+          "url": "https://colere.id"
+        },
+        "description": "Watch a randomly selected NPR Tiny Desk Concert video. A delightful surprise every time, made at Recurse by Cole Reid.",
+        "inLanguage": "en"
+      }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -17,9 +50,7 @@
           }
         }
       }
-    </script>
 
-    <script>
       const randomIndex = (min, max) => {
         const array = new Uint32Array(1);
         crypto.getRandomValues(array);
