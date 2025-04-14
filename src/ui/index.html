@@ -96,7 +96,7 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        const json = fetch('http://localhost:9000/items')
+        const json = fetch('/items')
           .then(res => res.json())
           .then(items => {
             console.log('items:', items)
