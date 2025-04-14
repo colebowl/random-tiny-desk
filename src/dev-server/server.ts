@@ -6,7 +6,7 @@ import { getEnvironmentVariable } from "../utils/environment.ts";
 const app = new Application();
 const router = new Router();
 
-router.get("/items", async (ctx) => {
+router.get("/items.json", async (ctx) => {
   ctx.response.headers.set("Content-Type", "application/json");
 
   let items;
