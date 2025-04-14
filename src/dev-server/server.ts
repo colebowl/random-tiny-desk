@@ -26,7 +26,7 @@ router.get("/items", async (ctx) => {
 });
 
 router.get("/", async (ctx) => {
-  await send(ctx, "src/ui/random-tiny.html", {
+  await send(ctx, "src/ui/index.html", {
     root: Deno.cwd(),
   });
 });

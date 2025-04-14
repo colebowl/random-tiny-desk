@@ -34,7 +34,7 @@ jobs:
         run: mkdir ./dist
       
       - name: Copy files
-        run: cp ./items.json ./src/ui/random-tiny.html ./dist
+        run: cp ./items.json ./src/ui/index.html ./dist
 
       - name: Publish to Cloudflare Pages
         run: npx -y wrangler pages deploy ./dist --project-name random-tiny-desk-concert --branch main
