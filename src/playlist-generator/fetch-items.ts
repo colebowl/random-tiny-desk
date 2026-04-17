@@ -1,6 +1,7 @@
 import { join } from "https://deno.land/std@0.218.0/path/mod.ts";
 
 import type { ParsedPlaylistItem, YouTubePlaylistItem } from "../types.ts";
+
 import { getEnvironmentVariable } from "../utils/environment.ts";
 
 const fetchPlaylistItems = async (
@@ -10,7 +11,6 @@ const fetchPlaylistItems = async (
   const youtubeApiKey = getEnvironmentVariable("YOUTUBE_API_KEY");
 
   const params = new URLSearchParams();
-
   params.append("key", youtubeApiKey);
   params.append("part", "contentDetails,snippet");
   params.append("playlistId", playlistId);
@@ -25,7 +25,11 @@ const fetchPlaylistItems = async (
   const response = await fetch(url);
 
   if (!response.ok) {
-    console.error("Failed to get the playlist items");
+    const errorBody = await response.text().catch(() => "No error body");
+    console.error(`YouTube API error ${response.status}:`, errorBody);
+    throw new Error(
+      `YouTube API request failed: ${response.status} ${response.statusText}`
+    );
   }
 
   return response.json();
@@ -61,15 +65,16 @@ export const getPlaylistItems = async (
       }
 
       nextPageToken = response.nextPageToken;
-    } while (nextPageToken && items.length < 1300);
+    } while (nextPageToken);
 
     const filePath = join(outputPath, "items.json");
 
     await Deno.writeTextFile(filePath, JSON.stringify(items, null, 2));
-    console.log(`Saved ${items.length} items to items.json`);
+    console.log(`✅ Saved ${items.length} items to items.json`);
 
     return items;
   } catch (error) {
     console.error("Error fetching playlist items:", error);
+    throw error;
   }
 };
